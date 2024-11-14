@@ -13,14 +13,6 @@ public class ThreadRunner extends Thread {
     
     @Override
     public void run() {
-        /*try {
-            Thread.sleep(runner.getSpeed() * 1000);
-            synchronized (resultsArea) {
-                resultsArea.append("1 - " + runner.getName() + " - Tiempo: " + runner.getSpeed() + " segundos\n");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         try {
             Thread.sleep(runner.getSpeed() * 1000);
         } catch (InterruptedException e) {

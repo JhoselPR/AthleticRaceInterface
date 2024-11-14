@@ -3,13 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/**
- * Módulo: Tópicos Avanzados de programación.
- * Reto 5. Programación concurrente e hilos.
- * Nombre: Félix Jhosel Peñaloza Ruiz.
- * Matrícula: 23020865.
- * Asesor: Andrés Espinal Jiménez.
- */
+
 public class AthleticRaceInterface extends JFrame {
     private JTextField nameField;
     private JTextArea runnersArea;

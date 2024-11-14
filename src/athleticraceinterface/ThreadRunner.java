@@ -4,6 +4,7 @@ import javax.swing.JTextArea;
 public class ThreadRunner extends Thread {
     private Runner runner;
     private JTextArea resultsArea;
+    private static int i = 1;
 
     public ThreadRunner(Runner runner, JTextArea resultsArea) {
         this.runner = runner;
@@ -12,13 +13,23 @@ public class ThreadRunner extends Thread {
     
     @Override
     public void run() {
-        try {
-            Thread.sleep(runner.getSpeed() * 1000); // Convierte la velocidad en milisegundos
+        /*try {
+            Thread.sleep(runner.getSpeed() * 1000);
             synchronized (resultsArea) {
-                resultsArea.append(runner.getName() + " - Tiempo: " + runner.getSpeed() + " segundos\n");
+                resultsArea.append("1 - " + runner.getName() + " - Tiempo: " + runner.getSpeed() + " segundos\n");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }*/
+        try {
+            Thread.sleep(runner.getSpeed() * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        synchronized (ThreadRunner.class) {
+            int currentPos = i++;
+            resultsArea.append(currentPos + " - " + runner.getName() + " - Tiempo: " + runner.getSpeed() + " segundos\n");
         }
     }
 }

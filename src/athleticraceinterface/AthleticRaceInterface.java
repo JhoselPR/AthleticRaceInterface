@@ -25,40 +25,47 @@ public class AthleticRaceInterface extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Sección 1: Registro de corredor
-        JPanel registerPanel = new JPanel(new FlowLayout());
-        nameField = new JTextField(15);
+        // 1. Registro de corredores
+        JPanel registerPanel = new JPanel(new BorderLayout());
+        nameField = new JTextField(25);
         registerBtn = new JButton("Registrar");
-        //registerLabel = new JLabel("Registar corredor");
-        //registerPanel.add(registerLabel);
-        registerPanel.add(new JLabel("Ingresa nombre..."));
-        registerPanel.add(nameField);
-        registerPanel.add(registerBtn);
+        registerLabel = new JLabel("Registar corredor");
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        inputPanel.add(nameField);
+        inputPanel.add(registerBtn);
+        registerPanel.add(registerLabel, BorderLayout.NORTH);
+        registerPanel.add(inputPanel, BorderLayout.CENTER);
 
-        // Sección 2: Corredores registrados
+        // 2. Corredores registrados
+        JPanel runnersPanel = new JPanel(new BorderLayout());
+        runnersLabel = new JLabel("Corredores registrados");
         runnersArea = new JTextArea(5, 30);
         runnersArea.setEditable(false);
+        runnersPanel.add(runnersLabel, BorderLayout.NORTH);
+        runnersPanel.add(new JScrollPane(runnersArea), BorderLayout.CENTER);
 
-        // Sección 3: Resultados y botones de control
+        // 3. Resultados y botones de control
         JPanel resultsPanel = new JPanel(new BorderLayout());
+        resultsLabel = new JLabel("Resultados");
         resultsArea = new JTextArea(5, 30);
         resultsArea.setEditable(false);
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        JPanel btnPanel = new JPanel(new GridLayout(3, 1));
         startBtn = new JButton("Iniciar");
         resetBtn = new JButton("Reiniciar");
         endBtn = new JButton("Terminar");
-        buttonPanel.add(startBtn);
-        buttonPanel.add(resetBtn);
-        buttonPanel.add(endBtn);
-        resultsPanel.add(new JScrollPane(resultsArea), BorderLayout.CENTER);
-        resultsPanel.add(buttonPanel, BorderLayout.EAST);
+        btnPanel.add(startBtn);
+        btnPanel.add(resetBtn);
+        btnPanel.add(endBtn);
+        resultsPanel.add(resultsLabel, BorderLayout.NORTH);
+        resultsPanel.add(resultsArea, BorderLayout.CENTER);
+        resultsPanel.add(btnPanel, BorderLayout.EAST);
 
-        // Agregar las secciones al JFrame
+        // Secciones del JFrame
         add(registerPanel, BorderLayout.NORTH);
-        add(new JScrollPane(runnersArea), BorderLayout.CENTER);
+        add(runnersPanel, BorderLayout.CENTER);
         add(resultsPanel, BorderLayout.SOUTH);
 
-        // Acción para el botón Registrar
+        // Botón registrar
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,7 +73,7 @@ public class AthleticRaceInterface extends JFrame {
             }
         });
 
-        // Acción para el botón Iniciar
+        // Botón iniciar
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,7 +81,7 @@ public class AthleticRaceInterface extends JFrame {
             }
         });
 
-        // Acción para el botón Reiniciar
+        // Botón reiniciar
         resetBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,7 +89,7 @@ public class AthleticRaceInterface extends JFrame {
             }
         });
 
-        // Acción para el botón Terminar
+        // Botón terminar
         endBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,12 +98,12 @@ public class AthleticRaceInterface extends JFrame {
         });
     }
 
-    // Método para registrar corredores
+    // Registrar corredores
     private void registerRunner() {
         if (runnersNumber < 5) {
             String name = nameField.getText();
             if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.");
+                JOptionPane.showMessageDialog(this, "Ingrese un nombre por favor.");
                 return;
             }
             runners[runnersNumber] = new Runner(name);
@@ -104,23 +111,23 @@ public class AthleticRaceInterface extends JFrame {
             runnersNumber++;
             nameField.setText("");
         } else {
-            JOptionPane.showMessageDialog(this, "Se ha alcanzado el límite de 5 corredores.");
+            JOptionPane.showMessageDialog(this, "El límite es 5 corredores.");
         }
     }
 
-    // Método para iniciar la carrera
+    // Empezar la carrera
     private void startRace() {
         if (runnersNumber < 5) {
-            JOptionPane.showMessageDialog(this, "Debe haber 5 corredores registrados para iniciar la carrera.");
+            JOptionPane.showMessageDialog(this, "Debe haber 5 corredores registrados.");
             return;
         }
-        resultsArea.setText(""); // Limpiar resultados previos
+        resultsArea.setText("");
         for (Runner runner : runners) {
             new ThreadRunner(runner, resultsArea).start();
         }
     }
 
-    // Método para reiniciar la carrera
+    // Reiniciar la carrera
     private void resetRace() {
         runnersNumber = 0;
         runnersArea.setText("");
